@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .form-body {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            border: 2px solid grey;
+            padding: 10px 10px;
+        }
+
+        input,
+        button {
+            padding: 10px;
+            margin: 10px;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+            place-content: center;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        .error_msg {
+            padding: 5px;
+            background-color: rgb(255, 224, 224);
+            color: red;
+            font-size: 10px;
+        }
+    </style>
+    <title>Login Page</title>
+</head>
+
+<body>
+    <form class='form-body' action="/login/" method="post" enctype="multipart/form-data">
+        <p>Login form</p>
+        {% csrf_token %}
+        <input type="text" placeholder="Username" name="username">
+        <input type="password" placeholder="password" name="password">
+        {% if login_error_msg %}
+        <div class="error_msg">
+            {{login_error_msg}}
+        </div>
+
+        {% endif %}
+        <button>Login</button>
+    </form>
+</body>
+
+
+</html>

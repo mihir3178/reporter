@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .styled-table thead tr {
+            background-color: #009879;
+            color: #ffffff;
+            text-align: left;
+        }
+
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+        .styled-table tbody tr:last-of-type {
+            border-bottom: 2px solid #009879;
+        }
+
+        .styled-table th,
+        .styled-table td {
+            padding: 12px 15px;
+        }
+
+        .styled-table {
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            font-family: sans-serif;
+            min-width: 800px;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+
+        .main {
+            width: 80%;
+            justify-content: space-evenly;
+            display: flex;
+
+        }
+
+        .main>* {
+            flex: 0 0 auto;
+        }
+
+        .form-body {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            border: 2px solid grey;
+            padding: 10px 10px;
+            margin: 20px;
+        }
+
+        .form-body>* {
+            padding: 10px;
+            margin: 10px;
+        }
+
+
+        .center-text {
+            text-align: center;
+        }
+
+
+        p {
+            text-align: center;
+        }
+
+        .navbar {
+            overflow: hidden;
+            background-color: #333;
+
+            top: 0;
+            width: 100%;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        .navbar a:hover {
+            background: #ddd;
+            color: black;
+        }
+
+        .error_msg {
+            padding: 5px;
+            background-color: rgb(255, 224, 224);
+            color: red;
+            font-size: 10px;
+        }
+
+        .blue-button {
+            color: white;
+            background-color: rgb(87, 87, 219);
+        }
+
+        .green-button {
+            color: white;
+            background-color: rgb(70, 165, 70);
+        }
+
+        .black-button {
+            color: white;
+            background-color: black;
+        }
+    </style>
+    <title>View Report</title>
+</head>
+
+<body>
+    <div class="navbar">
+        <a href="/logout">Logout</a>
+    </div>
+    <div class="main">
+        <div class="data-container">
+            <table class="styled-table">
+                <tr>
+                    <th class="center-text">name</th>
+                    <th class="center-text">age</th>
+                </tr>
+                {% for item in data %}
+                <tr>
+                    <td class="center-text">{{item.name}}</td>
+                    <td class="center-text">{{item.age}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="input-container">
+            <form class='form-body' action="/upload_data" method="post" enctype="multipart/form-data">
+                <p>Upload data</p>
+                {% csrf_token %}
+                <input type="file" placeholder="choose csv file" name="file">
+                {% if upload_error_msg %}
+                <div class="error_msg">
+                    {{upload_error_msg}}
+                </div>
+
+                {% endif %}
+                <button class="green-button">Upload</button>
+            </form>
+
+            <form class='form-body' action="/" method="get">
+                <p>Filter Data</p>
+                <input type="text" placeholder="name" name="name">
+                <input type="text" placeholder="age" name="age">
+                <button class="blue-button">Filter</button>
+            </form>
+
+            <form class='form-body' action="/delete_data" method="post" enctype="multipart/form-data">
+                <p>Delete data</p>
+                {% csrf_token %}
+                <input type="text" placeholder="name" name="name">
+                <input type="text" placeholder="age" name="age">
+                {% if delete_error_msg %}
+                <div class="error_msg">
+                    {{delete_error_msg}}
+                </div>
+                {% endif %}
+                <button class="black-button">Delete</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
